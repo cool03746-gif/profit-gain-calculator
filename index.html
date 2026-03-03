@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>Profit Gain Calculator · modern & smooth</title>
+  <!-- Google Font (Inter) for modern clean look -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <!-- Google AdSense Script -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9581903347040204" crossorigin="anonymous"></script>
+  <!-- ========== WEBSITE OWNERSHIP CODE HERE (placeholder) ========== -->
+  <!-- ========== META ID CODE WILL BE INSERTED INSIDE BODY ========== -->
+  <style>
+    /* reset & base */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: linear-gradient(145deg, #f0f5fb 0%, #e9f0f9 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.2rem;
+      margin: 0;
+      line-height: 1.5;
+    }
+
+    /* main card – centered, soft shadow, rounded */
+    .card {
+      max-width: 680px;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      background-color: rgba(255, 255, 255, 0.75);
+      border-radius: 42px;
+      padding: 2rem 2rem 2.5rem;
+      box-shadow: 0 30px 60px -20px rgba(0, 30, 50, 0.25),
+                  inset 0 1px 2px rgba(255,255,255,0.8);
+      border: 1px solid rgba(255,255,255,0.5);
+      transition: box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+      box-shadow: 0 35px 65px -20px rgba(18, 52, 77, 0.3);
+    }
+
+    h1 {
+      font-size: 2.1rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      background: linear-gradient(130deg, #1A2F4F, #1f4b6e);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin-bottom: 0.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .sub {
+      color: #4a5f7a;
+      font-weight: 400;
+      font-size: 0.95rem;
+      margin-bottom: 2.2rem;
+      border-left: 4px solid #7f9fbb;
+      padding-left: 1rem;
+      background: rgba(255,255,255,0.5);
+      border-radius: 0 8px 8px 0;
+    }
+
+    /* currency row + two columns */
+    .currency-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(255,255,255,0.5);
+      padding: 0.6rem 1.2rem;
+      border-radius: 60px;
+      margin-bottom: 2rem;
+      backdrop-filter: blur(4px);
+      border: 1px solid rgba(255,255,255,0.8);
+    }
+
+    .currency-label {
+      font-weight: 600;
+      color: #1f3a57;
+      font-size: 0.95rem;
+      letter-spacing: 0.3px;
+    }
+
+    .currency-select {
+      background: white;
+      border: none;
+      padding: 0.5rem 2rem 0.5rem 1.2rem;
+      border-radius: 40px;
+      font-weight: 600;
+      font-size: 1rem;
+      color: #0b2a41;
+      appearance: none;
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="%231f4b6e" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>');
+      background-repeat: no-repeat;
+      background-position: right 1rem center;
+      background-size: 1rem;
+      border: 1px solid #cbd6e6;
+      cursor: pointer;
+      transition: border 0.2s, box-shadow 0.2s;
+    }
+
+    .currency-select:hover, .currency-select:focus {
+      border-color: #2f6590;
+      box-shadow: 0 0 0 3px rgba(47, 101, 144, 0.2);
+      outline: none;
+    }
+
+    /* input groups */
+    .input-group {
+      margin-bottom: 1.6rem;
+    }
+
+    label {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-weight: 600;
+      color: #1c3d5e;
+      margin-bottom: 0.5rem;
+      font-size: 0.95rem;
+      letter-spacing: -0.2px;
+    }
+
+    .symbol-hint {
+      background: #e9f0f9;
+      padding: 0.2rem 0.9rem;
+      border-radius: 40px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: #0d3f5c;
+      border: 1px solid #bdd1e4;
+    }
+
+    .input-wrapper {
+      display: flex;
+      align-items: center;
+      background: white;
+      border-radius: 60px;
+      border: 1.5px solid #e2eaf2;
+      transition: all 0.2s ease;
+      padding: 0 0.2rem 0 1.5rem;
+      box-shadow: 0 4px 8px -6px rgba(0,20,40,0.1);
+    }
+
+    .input-wrapper:focus-within {
+      border-color: #548cb0;
+      box-shadow: 0 8px 18px -12px #1f4970, 0 0 0 3px rgba(84, 140, 176, 0.2);
+    }
+
+    .currency-symbol {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: #345d81;
+      min-width: 2rem;
+      margin-right: 0.2rem;
+    }
+
+    .input-wrapper input {
+      width: 100%;
+      padding: 1rem 1rem 1rem 0.2rem;
+      border: none;
+      background: transparent;
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: #102b40;
+      outline: none;
+    }
+
+    input[type="number"]::-webkit-inner-spin-button, 
+    input[type="number"]::-webkit-outer-spin-button { 
+      opacity: 0.6;
+    }
+
+    .input-wrapper input::placeholder {
+      color: #a4bbd0;
+      font-weight: 400;
+    }
+
+    /* button row */
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin: 2.2rem 0 2rem;
+    }
+
+    .btn {
+      flex: 1 1 160px;
+      padding: 1rem 1.2rem;
+      border: none;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 1rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      background: white;
+      color: #1e3b55;
+      border: 1.5px solid #c1d6ea;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      box-shadow: 0 4px 10px -8px #204a6e;
+    }
+
+    .btn-primary {
+      background: #1d486b;
+      color: white;
+      border-color: #1d486b;
+      box-shadow: 0 8px 20px -12px #0c2b44;
+    }
+
+    .btn-primary:hover {
+      background: #235c88;
+      border-color: #235c88;
+      transform: scale(1.02) translateY(-2px);
+      box-shadow: 0 18px 25px -14px #1b4f78;
+    }
+
+    .btn-secondary:hover {
+      background: #ecf3fa;
+      border-color: #8bb1cf;
+      transform: translateY(-2px);
+      box-shadow: 0 12px 18px -12px #8faec9;
+    }
+
+    /* result panel */
+    .result-panel {
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(4px);
+      border-radius: 40px;
+      padding: 1.6rem 2rem;
+      border: 1px solid rgba(255,255,255,0.8);
+      transition: all 0.4s cubic-bezier(0.15, 0.9, 0.25, 1);
+      opacity: 0.95;
+      animation: resultFade 0.5s ease;
+    }
+
+    @keyframes resultFade {
+      0% { opacity: 0.3; transform: translateY(8px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    .result-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      flex-wrap: wrap;
+      margin: 0.5rem 0;
+      padding: 0.5rem 0;
+      border-bottom: 1px dashed #c1d6e8;
+    }
+
+    .result-row:last-child {
+      border-bottom: none;
+    }
+
+    .result-label {
+      font-weight: 500;
+      color: #1f4460;
+      font-size: 1rem;
+    }
+
+    .result-value {
+      font-weight: 700;
+      font-size: 1.6rem;
+      letter-spacing: -0.02em;
+      transition: color 0.2s, transform 0.2s;
+    }
+
+    .profit-text {
+      color: #1e7e34;
+    }
+    .loss-text {
+      color: #bc3e2b;
+    }
+    .neutral-text {
+      color: #2d4f6c;
+    }
+
+    .percent-badge {
+      background: white;
+      padding: 0.4rem 1rem;
+      border-radius: 40px;
+      font-weight: 600;
+      font-size: 1.1rem;
+      border: 1px solid #dae5f0;
+    }
+
+    .error-message {
+      color: #b13e3e;
+      background: rgba(255, 235, 235, 0.8);
+      padding: 0.8rem 1.5rem;
+      border-radius: 60px;
+      font-weight: 500;
+      text-align: center;
+      backdrop-filter: blur(5px);
+      border: 1px solid #f3c3c3;
+      margin-bottom: 1.2rem;
+      font-size: 0.95rem;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    footer {
+      margin-top: 1.5rem;
+      font-size: 0.75rem;
+      color: #7d94ad;
+      text-align: center;
+    }
+
+    /* responsive fine-tune */
+    @media (max-width: 450px) {
+      .card { padding: 1.5rem; }
+      h1 { font-size: 1.8rem; }
+      .result-value { font-size: 1.4rem; }
+      .currency-row { flex-direction: column; align-items: start; gap: 0.5rem; }
+    }
+
+    /* Ad container styling */
+    .ad-container {
+      max-width: 680px;
+      width: 100%;
+      margin: 20px auto 0;
+      border-radius: 42px;
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.5);
+      backdrop-filter: blur(4px);
+      padding: 1rem;
+      border: 1px solid rgba(255,255,255,0.8);
+    }
+  </style>
+</head>
+<body>
+  <!-- META ID CODE HERE (placeholder – insert inside body exactly here) -->
+  <!-- Google AdSense meta tag is already in head, but body meta can be added if needed -->
+
+  <main class="card">
+    <h1>📈 Profit Gain Calculator</h1>
+    <div class="sub">instant · accurate · loss & profit margins</div>
+
+    <!-- currency selector with dynamic symbols -->
+    <div class="currency-row">
+      <span class="currency-label">Select currency  💰</span>
+      <select id="currencySelect" class="currency-select" aria-label="Currency picker">
+        <option value="$" selected>USD ($)</option>
+        <option value="₨">PKR (₨)</option>
+        <option value="₹">INR (₹)</option>
+        <option value="€">EUR (€)</option>
+        <option value="£">GBP (£)</option>
+      </select>
+    </div>
+
+    <!-- inputs -->
+    <div class="input-group">
+      <label><span>💰 Cost price</span> <span class="symbol-hint" id="costSymbolHint">$</span></label>
+      <div class="input-wrapper">
+        <span class="currency-symbol" id="costSymbol">$</span>
+        <input type="number" id="costInput" placeholder="0.00" min="0" step="any" value="25.50">
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label><span>🏷️ Selling price</span> <span class="symbol-hint" id="sellSymbolHint">$</span></label>
+      <div class="input-wrapper">
+        <span class="currency-symbol" id="sellSymbol">$</span>
+        <input type="number" id="sellInput" placeholder="0.00" min="0" step="any" value="39.99">
+      </div>
+    </div>
+
+    <!-- error zone -->
+    <div id="errorBox" class="error-message hidden"></div>
+
+    <!-- action buttons -->
+    <div class="button-row">
+      <button class="btn btn-primary" id="calculateBtn">📊 Calculate Profit</button>
+      <button class="btn btn-secondary" id="resetBtn">⟲ Reset</button>
+    </div>
+
+    <!-- results with smooth animation (shown by default) -->
+    <div class="result-panel" id="resultPanel">
+      <div class="result-row">
+        <span class="result-label">Profit / Loss</span>
+        <span class="result-value" id="profitLossValue">$14.49</span>
+      </div>
+      <div class="result-row">
+        <span class="result-label">Profit Percentage</span>
+        <span class="result-value" id="percentValue">56.82%</span>
+      </div>
+      <div class="result-row" style="justify-content: flex-end;">
+        <span class="percent-badge" id="trendBadge">📈 gain</span>
+      </div>
+    </div>
+
+    <footer>real‑time · smooth results</footer>
+  </main>
+
+  <!-- Google AdSense Ad Unit -->
+  <div class="ad-container">
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-format="autorelaxed"
+         data-ad-client="ca-pub-9581903347040204"
+         data-ad-slot="5413901055"></ins>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+  </div>
+
+  <script>
+    (function() {
+      // ----- DOM elements -----
+      const currencySelect = document.getElementById('currencySelect');
+      const costSymbolSpan = document.getElementById('costSymbol');
+      const sellSymbolSpan = document.getElementById('sellSymbol');
+      const costSymbolHint = document.getElementById('costSymbolHint');
+      const sellSymbolHint = document.getElementById('sellSymbolHint');
+
+      const costInput = document.getElementById('costInput');
+      const sellInput = document.getElementById('sellInput');
+      const errorBox = document.getElementById('errorBox');
+
+      const profitLossSpan = document.getElementById('profitLossValue');
+      const percentSpan = document.getElementById('percentValue');
+      const trendBadge = document.getElementById('trendBadge');
+
+      // helper: get current currency symbol from dropdown
+      function getCurrencySymbol() {
+        return currencySelect.value; // $, ₨, ₹, €, £
+      }
+
+      // update all currency symbols (left side + hints)
+      function updateCurrencySymbols() {
+        const sym = getCurrencySymbol();
+        costSymbolSpan.textContent = sym;
+        sellSymbolSpan.textContent = sym;
+        costSymbolHint.textContent = sym;
+        sellSymbolHint.textContent = sym;
+      }
+
+      // initial call
+      updateCurrencySymbols();
+
+      // listen to currency change
+      currencySelect.addEventListener('change', () => {
+        updateCurrencySymbols();
+        // re-calc to refresh displayed currency if numbers are valid
+        if (!errorBox.classList.contains('hidden')) {
+          // if error is shown we still recalc but validation will re-hide if needed
+        }
+        performCalculation(); // recalc with new symbols
+      });
+
+      // ----- input validation & calculation -----
+      function validateInputs() {
+        const costRaw = costInput.value.trim();
+        const sellRaw = sellInput.value.trim();
+
+        if (costRaw === '' || sellRaw === '') {
+          return { valid: false, message: '⚠️ Both fields must be filled.' };
+        }
+
+        const cost = parseFloat(costRaw);
+        const sell = parseFloat(sellRaw);
+
+        if (isNaN(cost) || isNaN(sell)) {
+          return { valid: false, message: '❌ Please enter valid numbers.' };
+        }
+
+        if (cost < 0 || sell < 0) {
+          return { valid: false, message: '⛔ Negative values are not allowed.' };
+        }
+
+        return { valid: true, cost, sell };
+      }
+
+      // core calculation and UI update
+      function performCalculation() {
+        const validation = validateInputs();
+        const errorDiv = errorBox;
+
+        if (!validation.valid) {
+          // show error
+          errorDiv.textContent = validation.message;
+          errorDiv.classList.remove('hidden');
+
+          // but we could also keep previous results? we set fallback neutral
+          profitLossSpan.textContent = '—';
+          percentSpan.textContent = '—%';
+          trendBadge.textContent = '⏺ waiting';
+          trendBadge.style.backgroundColor = '#eef3f9';
+          profitLossSpan.className = 'result-value neutral-text';
+          return;
+        }
+
+        // valid case: hide error
+        errorDiv.classList.add('hidden');
+
+        const { cost, sell } = validation;
+        const symbol = getCurrencySymbol();
+
+        // calculate profit/loss & percentage
+        const diff = sell - cost;
+        const absDiff = Math.abs(diff);
+        let percent = 0;
+        if (cost !== 0) {
+          percent = (diff / cost) * 100;
+        } else {
+          // if cost is zero, handle gracefully
+          percent = diff > 0 ? 100 : (diff < 0 ? -100 : 0);
+        }
+
+        // format profit / loss
+        const formattedDiff = absDiff.toFixed(2);
+        const sign = diff > 0 ? '+' : (diff < 0 ? '−' : ''); // using minus sign
+        let displayDiff = '';
+        if (diff > 0) {
+          displayDiff = `+${symbol}${formattedDiff}`;
+        } else if (diff < 0) {
+          displayDiff = `-${symbol}${formattedDiff}`; // explicit minus
+        } else {
+          displayDiff = `${symbol}0.00`;
+        }
+
+        // profit percent string
+        const percentFormatted = percent.toFixed(2);
+        let percentDisplay = `${percent >= 0 ? '+' : ''}${percentFormatted}%`; // show + for positive
+
+        // color classes & trend badge
+        let diffClass = 'neutral-text';
+        let badgeText = '⚖️ break even';
+        if (diff > 0) {
+          diffClass = 'profit-text';
+          badgeText = '📈 gain';
+        } else if (diff < 0) {
+          diffClass = 'loss-text';
+          badgeText = '📉 loss';
+        } else {
+          diffClass = 'neutral-text';
+          badgeText = '⚖️ even';
+        }
+
+        // special case: if cost=0 and sell=0 -> neutral
+        if (cost === 0 && sell === 0) {
+          diffClass = 'neutral-text';
+          badgeText = '⚖️ zero';
+          percentDisplay = '0.00%';
+        }
+
+        // update DOM with smooth animation (class change)
+        profitLossSpan.textContent = displayDiff;
+        profitLossSpan.className = `result-value ${diffClass}`;
+
+        percentSpan.textContent = percentDisplay;
+        percentSpan.className = `result-value ${diffClass}`; // same color for percentage
+
+        trendBadge.textContent = badgeText;
+        if (diff > 0) {
+          trendBadge.style.background = '#e0f2e2';
+          trendBadge.style.color = '#1e7e34';
+          trendBadge.style.borderColor = '#a5d6b2';
+        } else if (diff < 0) {
+          trendBadge.style.background = '#ffe6e2';
+          trendBadge.style.color = '#bc3e2b';
+          trendBadge.style.borderColor = '#f7b5aa';
+        } else {
+          trendBadge.style.background = '#eaf0f8';
+          trendBadge.style.color = '#2d4f6c';
+          trendBadge.style.borderColor = '#c2d6ea';
+        }
+
+        // tiny extra animation: add then remove class (already have fade)
+        const panel = document.getElementById('resultPanel');
+        panel.style.animation = 'none';
+        panel.offsetHeight; // reflow
+        panel.style.animation = 'resultFade 0.5s ease';
+      }
+
+      // reset all fields and clear errors, set default example values
+      function resetForm() {
+        costInput.value = '25.50';
+        sellInput.value = '39.99';
+        errorBox.classList.add('hidden');
+        // currency symbol remains unchanged
+        performCalculation(); // recalc with defaults
+      }
+
+      // event listeners
+      document.getElementById('calculateBtn').addEventListener('click', (e) => {
+        e.preventDefault();
+        performCalculation();
+      });
+
+      document.getElementById('resetBtn').addEventListener('click', (e) => {
+        e.preventDefault();
+        resetForm();
+      });
+
+      // optional: trigger on input change (real-time if needed) but we prefer button.
+      // But also blur to be nice.
+      costInput.addEventListener('blur', performCalculation);
+      sellInput.addEventListener('blur', performCalculation);
+
+      // initial calculation on page load
+      window.addEventListener('load', () => {
+        // ensure default values reflect calculation
+        // default numbers are set in html: 25.5 / 39.99
+        performCalculation();
+      });
+
+      // additionally, when user presses Enter in input, trigger calc
+      costInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') performCalculation(); });
+      sellInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') performCalculation(); });
+
+    })();
+  </script>
+  <!-- ===== ADDITIONAL META/OWNERSHIP CODES CAN BE PLACED HERE ===== -->
+  <!-- Example: <meta name="google-adsense-account" content="ca-pub-..."> but already in head -->
+  <!-- Place any additional body meta ID code below this line -->
+  <!-- META ID CODE HERE (body placement) -->
+</body>
+</html>
